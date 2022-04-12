@@ -15,7 +15,7 @@ class Storage(ABC):
         pass
 
     @abstractmethod
-    def get_items(self):  # - возвращает сожержание склада в словаре {товар: количество}
+    def get_items(self):  # - возвращает содержание склада в словаре {товар: количество}
         pass
 
     @abstractmethod
@@ -28,7 +28,7 @@ class Store(Storage):
         self.items = {}
         self.capacity = 100
 
-    @property
+
     def add(self, name, count):  # ( < название >, < количество >) - увеличивает запас items
         is_found = False
         if self.get_free_space() >= count:
@@ -43,7 +43,7 @@ class Store(Storage):
             print(f"Товар не может быть добавлен, т.к. нет свободного места")
 
 
-    @property
+
     def remove(self, name, count):  # ( < название >, < количество >) - уменьшает запас items
             is_found = False
             for key in self.items.keys():
@@ -56,15 +56,15 @@ class Store(Storage):
             if not is_found:
                 print(f"Нет такого товара на складе")
 
-    @property
+
     def get_free_space(self):  # - вернуть количество свободных мест
         return self.capacity - sum(self.items.values())
 
-    @property
-    def get_items(self):  # - возвращает сожержание склада в словаре {товар: количество}
+
+    def get_items(self):  # - возвращает содержание склада в словаре {товар: количество}
         return self.items
 
-    @property
+
     def get_unique_items_count(self):  # - возвращает количество уникальных товаров.
         return len(self.items.keys())
 
@@ -73,16 +73,16 @@ class Shop(Store):
     def __init__(self, limit=5):
         super().__init__()
         self.items = {}
-        self.capacity = 20
+        self.capacity = 30
         self.limit = limit
 
     @property
     def get_item_limit(self):
-        return self._limit
+        return self.limit
 
-    @property
+
     def add(self, name, count):  # ( < название >, < количество >) - увеличивает запас items
-        if self.get_unique_items_count() <= self._limit:
+        if self.get_unique_items_count() <= self.limit:
             super().add(name, count)
         else:
             print(f"Товар не может быть добавлен")
