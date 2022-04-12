@@ -19,12 +19,13 @@ if __name__ == '__main__':
         print("Введите число")
         is_error = True
 
-    if ("забрать" or "доставить") not in user_str_list[0].lower():
+    if ("забрать" and "доставить") not in user_str_list[0].lower():
         print("Введите забрать или доставить")
         is_error = True
-    elif ("магазин" or "склад") not in user_str_list[4].lower():
+    elif ("магазин" and "склад") not in user_str_list[4].lower():
         print("Введите место назначения")
         is_error = True
+
     if not is_error:
         r = Request(user_str)
         print(r)
@@ -36,7 +37,7 @@ if __name__ == '__main__':
                     print("Нужное количество есть на складе")
                     print("Курьер забрал товар со склада")
                     print("Курьер везет товар со склада в магазин")
-                    if sum(shop.get_items().values())+int(r.amount) <= shop.capacity:
+                    if sum(shop.get_items().values()) + int(r.amount) <= shop.capacity:
                         print("Курьер доставил товар в магазин")
                         store.remove(r.product, r.amount)
                         shop.add(r.product, r.amount)
