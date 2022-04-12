@@ -45,14 +45,16 @@ class Store(Storage):
 
     @property
     def remove(self, name, count):  # ( < название >, < количество >) - уменьшает запас items
+            is_found = False
             for key in self.items.keys():
                 if name == key:
+                    is_found = True
                     if self.items[key] - count >= 0:
                         self.items[key] = self.items[key] - count
                     else:
                         print(f"{name} слишком мало на складе")
-                else:
-                    print(f"Нет такого товара на складе")
+            if not is_found:
+                print(f"Нет такого товара на складе")
 
     @property
     def get_free_space(self):  # - вернуть количество свободных мест
@@ -67,3 +69,23 @@ class Store(Storage):
         return len(self.items.keys())
 
 
+class Shop(Store):
+    def __init__(self, limit=5):
+        super().__init__()
+        self.items = {}
+        self.capacity = 20
+        self.limit = limit
+
+    @property
+    def get_item_limit(self):
+        return self._limit
+
+    @property
+    def add(self, name, count):  # ( < название >, < количество >) - увеличивает запас items
+        if self.get_unique_items_count() <= self._limit:
+            super().add(name, count)
+        else:
+            print(f"Товар не может быть добавлен")
+
+
+class Request:
